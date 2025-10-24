@@ -1,0 +1,5 @@
+{
+  "name": "India vs UAE Tax Residency Calculator",
+  "description": "A tool to calculate the financial breakeven point and residency status for individuals considering a move to the UAE from India. It helps analyze costs, tax savings, and net financial gain based on various inputs.",
+  "requestFramePermissions": []
+}
