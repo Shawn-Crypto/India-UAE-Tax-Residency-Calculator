@@ -1,7 +1,6 @@
-
 import React, { useState, useEffect, useCallback } from 'react';
 import { Inputs, CalculationResults } from './types';
-import { DEFAULT_INPUTS, DAYS_TOTAL, D_UAE, SENSITIVITY_INCOMES, M_UAE } from './constants';
+import { DEFAULT_INPUTS, DAYS_TOTAL, SENSITIVITY_INCOMES, AVG_DAYS_IN_MONTH } from './constants';
 import { InputField } from './components/InputField';
 import { SummaryCard } from './components/SummaryCard';
 import { SensitivityTable } from './components/SensitivityTable';
@@ -13,50 +12,70 @@ const App: React.FC = () => {
 
   const validate = useCallback((currentInputs: Inputs): Record<string, string> => {
     const newErrors: Record<string, string> = {};
-    const { c_uae, fx, flights, t_ind, d_in } = currentInputs;
+    const { c_uae, c_ind, fx, flights, t_ind, d_in, c_one_time, d_uae } = currentInputs;
 
     if (c_uae < 0) newErrors.c_uae = 'Cost must be non-negative.';
+    if (c_ind < 0) newErrors.c_ind = 'Cost must be non-negative.';
     if (fx <= 0) newErrors.fx = 'Rate must be positive.';
     if (flights < 0) newErrors.flights = 'Cost must be non-negative.';
+    if (c_one_time < 0) newErrors.c_one_time = 'Cost must be non-negative.';
     if (t_ind < 0 || t_ind > 100) newErrors.t_ind = 'Rate must be between 0 and 100.';
     
-    const maxDaysInIndia = DAYS_TOTAL - D_UAE;
+    if (d_uae < 190) {
+      newErrors.d_uae = 'Must be >= 190 for TRC safe zone.';
+    } else if (d_uae > 365) {
+      newErrors.d_uae = 'Cannot exceed 365 days.';
+    }
+    
+    const maxDaysInIndia = DAYS_TOTAL - d_uae;
     if (d_in < 0 || d_in > maxDaysInIndia) {
-        newErrors.d_in = `Days must be between 0 and ${maxDaysInIndia}.`;
+        newErrors.d_in = `Days must be between 0 and ${Math.floor(maxDaysInIndia)}.`;
     }
     
     return newErrors;
   }, []);
   
   const calculate = useCallback(() => {
-    const { c_uae, fx, flights, t_ind, d_in } = inputs;
+    const { c_uae, c_ind, fx, flights, t_ind, d_in, c_one_time, d_uae } = inputs;
     
     const t_ind_decimal = t_ind / 100;
 
-    const d_abroad = DAYS_TOTAL - (D_UAE + d_in);
-    const c_total = (c_uae * fx * M_UAE) + flights;
-    const i_annual_breakeven = t_ind_decimal > 0 ? c_total / t_ind_decimal : 0;
+    const d_abroad = DAYS_TOTAL - (d_uae + d_in);
+    
+    // Calculate total costs for the period of stay, prorated by exact days
+    const c_uae_daily = c_uae / AVG_DAYS_IN_MONTH;
+    const c_ind_daily = c_ind / AVG_DAYS_IN_MONTH;
+
+    const c_uae_total_inr = (c_uae_daily * d_uae * fx) + flights;
+    const c_ind_total_inr = c_ind_daily * d_uae; // This is the cost you avoid by moving
+
+    // The true incremental cost is the difference between the two full costs plus one-time setup costs
+    const c_incremental = c_uae_total_inr - c_ind_total_inr + c_one_time;
+
+    const i_annual_breakeven = t_ind_decimal > 0 ? c_incremental / t_ind_decimal : 0;
 
     let status_india: string;
-    if (d_in <= 110) {
+    const d_in_int = Math.floor(d_in); // Use whole days for status calculation
+
+    if (d_in_int < 111) {
       status_india = "Non-Resident (NRI)";
-    } else if (d_in >= 111 && d_in < 182) {
+    } else if (d_in_int < 182) {
       status_india = "Resident but Not Ordinarily Resident (RNOR)";
     } else {
       status_india = "Resident (Taxable on Global Income)";
     }
 
-    const status_uae = D_UAE >= 183 ? "UAE Tax Resident (TRC Eligible)" : "Not TRC Eligible";
+    const status_uae = d_uae >= 183 ? "UAE Tax Resident (TRC Eligible)" : "Not TRC Eligible";
 
     const sensitivityData = SENSITIVITY_INCOMES.map(income => {
       const tax_saved = income * t_ind_decimal;
-      const net_gain = tax_saved - c_total;
+      const net_gain = tax_saved - c_incremental;
       return { income, tax_saved, net_gain };
     });
 
     setResults({
       d_abroad,
-      c_total,
+      c_total: c_incremental, // c_total now represents the incremental cost
       i_annual_breakeven,
       status_india,
       status_uae,
@@ -104,33 +123,21 @@ const App: React.FC = () => {
           <div className="lg:col-span-2 bg-gray-800 p-6 rounded-lg shadow-lg h-fit">
             <h2 className="text-xl font-bold mb-6 text-white">Your Inputs</h2>
             <div className="space-y-6">
-              <div className="flex flex-col space-y-2">
-                <label htmlFor="d_uae" className="text-sm font-medium text-gray-300">
-                  Days in UAE
-                </label>
-                <input
-                  type="number"
-                  id="d_uae"
-                  name="d_uae"
-                  value={D_UAE}
-                  disabled
-                  aria-readonly="true"
-                  className="w-full bg-gray-600 border-gray-500 rounded-md shadow-sm text-gray-300 cursor-not-allowed focus:ring-0 focus:border-gray-500"
-                />
-                <p className="text-xs text-gray-400 h-4 mt-1">Fixed – TRC safe zone</p>
-              </div>
+              <InputField id="d_uae" label="Days in UAE" value={inputs.d_uae} onChange={handleInputChange} description=">=190 recommended for TRC safe zone" min={190} max={365} error={errors.d_uae} />
               <InputField id="c_uae" label="Monthly Cost of Living in UAE" value={inputs.c_uae} onChange={handleInputChange} description="in AED" min={0} error={errors.c_uae} />
+              <InputField id="c_ind" label="Monthly Cost of Living in India" value={inputs.c_ind} onChange={handleInputChange} description="Post-tax spend, if you stayed" step={1000} symbol="₹" min={0} error={errors.c_ind}/>
               <InputField id="fx" label="AED to INR Exchange Rate" value={inputs.fx} onChange={handleInputChange} description="Current rate" step={0.01} min={0.01} error={errors.fx} />
               <InputField id="flights" label="Total Flight Cost" value={inputs.flights} onChange={handleInputChange} description="For 2 people, in INR" step={1000} symbol="₹" min={0} error={errors.flights}/>
+              <InputField id="c_one_time" label="One-Time Relocation Costs" value={inputs.c_one_time} onChange={handleInputChange} description="e.g., Visa, deposits, furniture" step={10000} symbol="₹" min={0} error={errors.c_one_time} />
               <InputField id="t_ind" label="Effective Indian Tax Rate" value={inputs.t_ind} onChange={handleInputChange} description="As a percentage" step={0.1} symbol="%" symbolPosition="after" min={0} max={100} error={errors.t_ind} />
-              <InputField id="d_in" label="Days in India" value={inputs.d_in} onChange={handleInputChange} description="<=110 recommended for NRI status" min={0} max={DAYS_TOTAL - D_UAE} error={errors.d_in} />
+              <InputField id="d_in" label="Days in India" value={inputs.d_in} onChange={handleInputChange} description="<=110 recommended for NRI status" min={0} max={DAYS_TOTAL - inputs.d_uae} error={errors.d_in} />
             </div>
           </div>
 
           <div className="lg:col-span-3 flex flex-col gap-8">
             {results ? (
               <>
-                <SummaryCard results={results} d_uae={D_UAE} d_in={inputs.d_in} formatCurrency={formatCurrency} />
+                <SummaryCard results={results} d_uae={inputs.d_uae} d_in={inputs.d_in} formatCurrency={formatCurrency} />
                 <SensitivityTable data={results.sensitivityData} formatCurrency={formatCurrency} />
               </>
             ) : (

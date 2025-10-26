@@ -1,9 +1,12 @@
 export interface Inputs {
   c_uae: number;
+  c_ind: number;
   fx: number;
   flights: number;
   t_ind: number;
   d_in: number;
+  c_one_time: number;
+  d_uae: number;
 }
 
 export interface SensitivityData {

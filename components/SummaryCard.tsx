@@ -33,8 +33,8 @@ export const SummaryCard: React.FC<SummaryCardProps> = ({ results, d_uae, d_in, 
         <SummaryItem label="India Status" value={results.status_india} valueClassName={getStatusColor(results.status_india)} />
         <SummaryItem label="UAE Status" value={results.status_uae} valueClassName={getStatusColor(results.status_uae)} />
         <div className="pt-4 mt-4 border-t border-gray-700">
-            <SummaryItem label="Total UAE Stay Cost" value={formatCurrency(results.c_total)} valueClassName="text-indigo-400" />
-            <SummaryItem label="Breakeven Annual Income" value={formatCurrency(results.i_annual_breakeven)} valueClassName="text-teal-400" />
+            <SummaryItem label="Incremental Cost of UAE Stay" value={formatCurrency(results.c_total)} valueClassName="text-indigo-400" />
+            <SummaryItem label="First-Year Breakeven Income" value={formatCurrency(results.i_annual_breakeven)} valueClassName="text-teal-400" />
         </div>
       </div>
     </div>
