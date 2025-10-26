@@ -9,7 +9,7 @@ interface SensitivityTableProps {
 
 export const SensitivityTable: React.FC<SensitivityTableProps> = ({ data, formatCurrency }) => {
   return (
-    <div className="bg-gray-800 p-6 rounded-lg shadow-lg mt-8 lg:mt-0">
+    <div className="bg-gray-800 p-6 rounded-lg shadow-lg">
       <h2 className="text-xl font-bold mb-4 text-white">Sensitivity Analysis</h2>
       <div className="overflow-x-auto">
         <table className="w-full text-left">

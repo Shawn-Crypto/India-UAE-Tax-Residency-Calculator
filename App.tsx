@@ -101,7 +101,7 @@ const App: React.FC = () => {
         </header>
 
         <main className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-2 bg-gray-800 p-6 rounded-lg shadow-lg">
+          <div className="lg:col-span-2 bg-gray-800 p-6 rounded-lg shadow-lg h-fit">
             <h2 className="text-xl font-bold mb-6 text-white">Your Inputs</h2>
             <div className="space-y-6">
               <div className="flex flex-col space-y-2">
@@ -127,15 +127,30 @@ const App: React.FC = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-3">
-            {results && (
+          <div className="lg:col-span-3 flex flex-col gap-8">
+            {results ? (
               <>
                 <SummaryCard results={results} d_uae={D_UAE} d_in={inputs.d_in} formatCurrency={formatCurrency} />
                 <SensitivityTable data={results.sensitivityData} formatCurrency={formatCurrency} />
               </>
+            ) : (
+              <div className="bg-gray-800 p-6 rounded-lg shadow-lg h-full flex items-center justify-center min-h-[300px]">
+                <p className="text-gray-400 text-center">
+                  Enter valid inputs to see the residency summary and sensitivity analysis.
+                </p>
+              </div>
             )}
           </div>
         </main>
+        
+        <footer className="text-center mt-10 pt-6 border-t border-gray-700 text-xs text-gray-500">
+          <p className="mb-2">
+            Disclaimer: This calculator is for informational purposes only and does not constitute financial or tax advice. Consult with a qualified professional for your specific situation.
+          </p>
+          <p>
+            vibed coded by <a href="https://x.com/shawnpwn" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 font-semibold">@shawnpwn</a>. Not financial advice.
+          </p>
+        </footer>
       </div>
     </div>
   );
