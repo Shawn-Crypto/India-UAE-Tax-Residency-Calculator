@@ -117,6 +117,11 @@ const App: React.FC = () => {
           <p className="mt-2 text-lg text-gray-400">
             Analyze the financial implications of becoming a UAE tax resident.
           </p>
+          <div className="mt-4 max-w-3xl mx-auto text-sm text-gray-300 leading-relaxed">
+            <p>
+              Determine your tax residency status between UAE and India using the 183-day rule. This calculator helps you understand whether you qualify as a Non-Resident Indian (NRI), Resident but Not Ordinarily Resident (RNOR), or fully taxable resident under Indian tax laws. It factors in UAE Tax Residency Certificate (TRC) eligibility and Double Tax Avoidance Agreement (DTAA) considerations to optimize your tax planning between both countries.
+            </p>
+          </div>
         </header>
 
         <main className="grid grid-cols-1 lg:grid-cols-5 gap-8">
