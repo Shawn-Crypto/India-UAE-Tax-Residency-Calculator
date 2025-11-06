@@ -1,5 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /*.json$
 
 # Sitemap
 Sitemap: https://india-uae-tax-residency-calculator.onrender.com/sitemap.xml

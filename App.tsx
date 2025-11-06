@@ -155,6 +155,105 @@ const App: React.FC = () => {
           </section>
         </main>
 
+        {/* How It Works Section */}
+        <section className="mt-16 max-w-5xl mx-auto" aria-label="How It Works">
+          <h2 className="text-3xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-teal-400">
+            How It Works
+          </h2>
+
+          <div className="bg-gray-800 rounded-lg shadow-lg p-8">
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">1. Tax Residency Determination</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  This calculator uses the <strong>183-day rule</strong> to determine your tax residency status in both India and UAE. The calculation is based on the number of days you physically spend in each country during a tax year (calendar year for UAE, financial year for India).
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">2. India Tax Status Categories</h3>
+                <ul className="text-gray-300 leading-relaxed space-y-2 list-disc list-inside">
+                  <li><strong>Non-Resident Indian (NRI):</strong> Less than 111 days in India - only Indian-sourced income is taxable</li>
+                  <li><strong>RNOR (Resident but Not Ordinarily Resident):</strong> 111-181 days in India - partial tax relief on foreign income</li>
+                  <li><strong>Resident:</strong> 182+ days in India - global income is taxable</li>
+                </ul>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">3. UAE Tax Residency Certificate (TRC)</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  To qualify for a UAE TRC, you need to spend at least <strong>183 days</strong> in the UAE during a calendar year. We recommend <strong>190+ days</strong> as a safe zone to account for any travel uncertainties and ensure TRC eligibility.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">4. Cost-Benefit Analysis</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  The calculator compares the incremental cost of living in UAE (including flights and one-time relocation costs) against the tax savings from becoming an NRI. It calculates the annual income at which the tax savings offset the additional costs, helping you make an informed financial decision.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">5. Double Tax Avoidance Agreement (DTAA)</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  The India-UAE DTAA ensures you won't be taxed twice on the same income. If you qualify as a tax resident in both countries, the DTAA provides tie-breaker rules based on your permanent home, center of vital interests, and habitual residence to determine your primary tax residency.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Key Definitions Section */}
+        <section className="mt-16 max-w-5xl mx-auto" aria-label="Key Definitions">
+          <h2 className="text-3xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-teal-400">
+            Key Definitions
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-3">NRI (Non-Resident Indian)</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                An Indian citizen or person of Indian origin who stays outside India for more than 250 days in a financial year, or less than 111 days in India. NRIs enjoy favorable tax treatment on foreign income.
+              </p>
+            </div>
+
+            <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-3">RNOR (Resident but Not Ordinarily Resident)</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                A transitional tax status for individuals who spend 111-181 days in India. RNOR provides partial tax benefits - foreign income is generally exempt unless it's from a business controlled in India or professional services in India.
+              </p>
+            </div>
+
+            <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-3">TRC (Tax Residency Certificate)</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                An official certificate issued by UAE tax authorities proving you're a tax resident of UAE. Required for claiming DTAA benefits and reducing withholding tax on Indian income. Valid for one year and must be renewed annually.
+              </p>
+            </div>
+
+            <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-3">DTAA (Double Tax Avoidance Agreement)</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                A bilateral treaty between India and UAE to prevent double taxation. It defines which country has taxing rights on different types of income and provides relief mechanisms like tax credits and exemptions.
+              </p>
+            </div>
+
+            <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-3">183-Day Rule</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                A common international standard for determining tax residency. Spending 183 or more days in a country during a tax year typically establishes tax residency there, triggering tax obligations on global income.
+              </p>
+            </div>
+
+            <div className="bg-gray-800 rounded-lg shadow-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-3">Global Income</h3>
+              <p className="text-gray-300 text-sm leading-relaxed">
+                All income earned worldwide, including salary, business profits, rental income, capital gains, and interest from any country. Residents of India must pay tax on global income; NRIs only on Indian-sourced income.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* FAQ Section */}
         <section className="mt-16 max-w-5xl mx-auto" aria-label="Frequently Asked Questions">
           <h2 className="text-3xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-teal-400">
@@ -224,12 +323,32 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        <footer className="text-center mt-10 pt-6 border-t border-gray-700 text-xs text-gray-500">
-          <p className="mb-2">
-            Disclaimer: This calculator is for informational purposes only and does not constitute financial or tax advice. Consult with a qualified professional for your specific situation.
+        <footer className="text-center mt-16 pt-8 border-t border-gray-700">
+          <div className="max-w-4xl mx-auto mb-6 p-6 bg-gray-800 rounded-lg border border-yellow-600/30">
+            <h3 className="text-lg font-bold text-yellow-400 mb-3">⚠️ Important Disclaimer</h3>
+            <div className="text-sm text-gray-300 leading-relaxed space-y-3 text-left">
+              <p>
+                This calculator is provided for <strong>educational and informational purposes only</strong>. It does not constitute professional tax, legal, or financial advice. Tax laws are complex, subject to interpretation, and frequently change.
+              </p>
+              <p>
+                The calculations and recommendations provided by this tool are based on general tax principles and may not account for your specific circumstances, including but not limited to: income sources, deductions, credits, treaty provisions, state/local taxes, or recent amendments to tax laws.
+              </p>
+              <p>
+                <strong>We strongly recommend consulting with a qualified tax professional, chartered accountant, or legal advisor</strong> before making any decisions based on the information provided by this calculator. Tax residency determinations can have significant financial and legal implications.
+              </p>
+              <p className="text-xs text-gray-400">
+                <strong>Data Sources:</strong> Calculations are based on the Indian Income Tax Act, 1961 (as amended), UAE Federal Tax Authority guidelines, and the India-UAE Double Tax Avoidance Agreement (DTAA). Information accurate as of November 2025. Tax laws are subject to change.
+              </p>
+              <p className="text-xs text-gray-400">
+                <strong>Limitation of Liability:</strong> We are not liable for any decisions made or actions taken based on this tool. Use at your own discretion.
+              </p>
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 mb-2">
+            Last Updated: November 6, 2025 | <strong>Created by:</strong> <a href="https://x.com/shawnpwn" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 font-semibold">Shounak Shetty (@shawnpwn)</a>
           </p>
-          <p>
-            vibed coded by <a href="https://x.com/shawnpwn" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 font-semibold">@shawnpwn</a>. Not financial advice.
+          <p className="text-xs text-gray-600">
+            For official tax guidance, visit: <a href="https://www.incometax.gov.in" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300">Indian Income Tax Department</a> | <a href="https://tax.gov.ae" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300">UAE Federal Tax Authority</a>
           </p>
         </footer>
       </div>
