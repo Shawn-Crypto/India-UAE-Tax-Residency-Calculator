@@ -1,4 +1,12 @@
 User-agent: *
 Allow: /
 
-Sitemap: YOUR_URL_HERE/sitemap.xml
+# Sitemap
+Sitemap: https://india-uae-tax-residency-calculator.onrender.com/sitemap.xml
+
+# Common search engine bots
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /

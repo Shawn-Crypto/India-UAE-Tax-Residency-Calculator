@@ -125,7 +125,7 @@ const App: React.FC = () => {
         </header>
 
         <main className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          <div className="lg:col-span-2 bg-gray-800 p-6 rounded-lg shadow-lg h-fit">
+          <section className="lg:col-span-2 bg-gray-800 p-6 rounded-lg shadow-lg h-fit" aria-label="Calculator Inputs">
             <h2 className="text-xl font-bold mb-6 text-white">Your Inputs</h2>
             <div className="space-y-6">
               <InputField id="d_uae" label="Days in UAE" value={inputs.d_uae} onChange={handleInputChange} description=">=190 recommended for TRC safe zone" min={190} max={365} error={errors.d_uae} />
@@ -137,9 +137,9 @@ const App: React.FC = () => {
               <InputField id="t_ind" label="Effective Indian Tax Rate" value={inputs.t_ind} onChange={handleInputChange} description="As a percentage" step={0.1} symbol="%" symbolPosition="after" min={0} max={100} error={errors.t_ind} />
               <InputField id="d_in" label="Days in India" value={inputs.d_in} onChange={handleInputChange} description="<=110 recommended for NRI status" min={0} max={DAYS_TOTAL - inputs.d_uae} error={errors.d_in} />
             </div>
-          </div>
+          </section>
 
-          <div className="lg:col-span-3 flex flex-col gap-8">
+          <section className="lg:col-span-3 flex flex-col gap-8" aria-label="Results and Analysis">
             {results ? (
               <>
                 <SummaryCard results={results} d_uae={inputs.d_uae} d_in={inputs.d_in} formatCurrency={formatCurrency} />
@@ -152,9 +152,78 @@ const App: React.FC = () => {
                 </p>
               </div>
             )}
-          </div>
+          </section>
         </main>
-        
+
+        {/* FAQ Section */}
+        <section className="mt-16 max-w-5xl mx-auto" aria-label="Frequently Asked Questions">
+          <h2 className="text-3xl font-bold text-center mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-teal-400">
+            Frequently Asked Questions
+          </h2>
+
+          <div className="bg-gray-800 rounded-lg shadow-lg divide-y divide-gray-700">
+            <details className="p-6 group">
+              <summary className="text-lg font-semibold text-white cursor-pointer list-none flex items-center justify-between">
+                <span>How many days do I need to stay in UAE for tax residency?</span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p className="mt-4 text-gray-300 leading-relaxed">
+                You need to spend at least <strong>183 days</strong> in the UAE during a calendar year to qualify for UAE tax residency and obtain a Tax Residency Certificate (TRC). However, <strong>190+ days</strong> is recommended for a safe zone to ensure compliance and avoid any complications with tax authorities.
+              </p>
+            </details>
+
+            <details className="p-6 group">
+              <summary className="text-lg font-semibold text-white cursor-pointer list-none flex items-center justify-between">
+                <span>What is NRI status in India?</span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p className="mt-4 text-gray-300 leading-relaxed">
+                <strong>Non-Resident Indian (NRI)</strong> status is achieved when you spend <strong>less than 111 days</strong> in India during a financial year. NRIs are only taxed on income earned or received in India, not on global income, providing significant tax advantages for those living abroad.
+              </p>
+            </details>
+
+            <details className="p-6 group">
+              <summary className="text-lg font-semibold text-white cursor-pointer list-none flex items-center justify-between">
+                <span>What is RNOR status?</span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p className="mt-4 text-gray-300 leading-relaxed">
+                <strong>Resident but Not Ordinarily Resident (RNOR)</strong> status applies when you spend <strong>between 111 and 181 days</strong> in India during a financial year. RNOR status provides partial tax relief compared to full residency, where only certain foreign income (like income from business controlled from India or professional services in India) is taxable.
+              </p>
+            </details>
+
+            <details className="p-6 group">
+              <summary className="text-lg font-semibold text-white cursor-pointer list-none flex items-center justify-between">
+                <span>Can I be tax resident in both UAE and India?</span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p className="mt-4 text-gray-300 leading-relaxed">
+                While it's theoretically possible to meet residency criteria in both countries, the <strong>India-UAE Double Tax Avoidance Agreement (DTAA)</strong> provides tie-breaker rules to determine primary tax residency and avoid double taxation. The DTAA considers factors like permanent home, center of vital interests, and habitual abode to resolve dual residency situations.
+              </p>
+            </details>
+
+            <details className="p-6 group">
+              <summary className="text-lg font-semibold text-white cursor-pointer list-none flex items-center justify-between">
+                <span>What is a Tax Residency Certificate (TRC)?</span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p className="mt-4 text-gray-300 leading-relaxed">
+                A <strong>Tax Residency Certificate (TRC)</strong> is an official document issued by the UAE tax authorities proving that you are a tax resident of the UAE. This certificate is essential for claiming benefits under the India-UAE DTAA and avoiding double taxation on your income. You'll need this when dealing with Indian tax authorities or financial institutions.
+              </p>
+            </details>
+
+            <details className="p-6 group">
+              <summary className="text-lg font-semibold text-white cursor-pointer list-none flex items-center justify-between">
+                <span>How does the 183-day rule work?</span>
+                <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p className="mt-4 text-gray-300 leading-relaxed">
+                The <strong>183-day rule</strong> is a threshold used by many countries, including UAE and India, to determine tax residency. If you spend 183 or more days in a country during a tax year (calendar year for UAE, financial year for India), you're generally considered a tax resident of that country. This rule is crucial for determining which country has the primary right to tax your income.
+              </p>
+            </details>
+          </div>
+        </section>
+
         <footer className="text-center mt-10 pt-6 border-t border-gray-700 text-xs text-gray-500">
           <p className="mb-2">
             Disclaimer: This calculator is for informational purposes only and does not constitute financial or tax advice. Consult with a qualified professional for your specific situation.
