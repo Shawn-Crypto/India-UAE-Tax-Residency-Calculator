@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: YOUR_URL_HERE/sitemap.xml
+Sitemap: https://india-uae-tax-residency-calculator.onrender.com/sitemap.xml
